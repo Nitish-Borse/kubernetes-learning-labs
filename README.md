@@ -1,10 +1,14 @@
 # Kubernetes Learning Labs
 
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#kubernetes-learning-labs)
+
 Hands-on Kubernetes practice covering workloads, scheduling, storage, RBAC, CRDs, Helm, probes, autoscaling, and application deployment.
 
 This repository contains Kubernetes manifests and notes from my hands-on learning and practice.
 
 ## What I Practiced
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#what-i-practiced)
 
 - Pods and workload controllers
 - Deployments, ReplicaSets, DaemonSets, StatefulSets, Jobs and CronJobs
@@ -24,18 +28,22 @@ This repository contains Kubernetes manifests and notes from my hands-on learnin
 
 ## Repository Structure
 
-| Directory | Topics |
-|---|---|
-| `01-pod-types/` | Deployment, ReplicaSet, DaemonSet, StatefulSet, Job, CronJob |
-| `02-scaling-and-scheduling/` | HPA, VPA, probes, node affinity, taints/tolerations, resources |
-| `03-storage/` | PV, PVC, ConfigMap, StatefulSet, MySQL storage examples |
-| `04-rbac/` | ServiceAccount, Role, RoleBinding and RBAC authorization |
-| `05-custom-resource-definitions/` | CustomResourceDefinition and Custom Resource |
-| `06-helm/` | Apache Helm chart, templates, Service, Ingress, HPA and Helm test |
-| `07-kubernetes-dashboard/` | Dashboard access and RBAC example |
-| `08-notes-app-kubernetes/` | Django Notes App, MySQL, Secrets, Services and Kubernetes deployment |
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#repository-structure)
+
+| **DirectoryTopics**               |                                                                      |
+| --------------------------------- | -------------------------------------------------------------------- |
+| `01-pod-types/`                   | Deployment, ReplicaSet, DaemonSet, StatefulSet, Job, CronJob         |
+| `02-scaling-and-scheduling/`      | HPA, VPA, probes, node affinity, taints/tolerations, resources       |
+| `03-storage/`                     | PV, PVC, ConfigMap, StatefulSet, MySQL storage examples              |
+| `04-rbac/`                        | ServiceAccount, Role, RoleBinding and RBAC authorization             |
+| `05-custom-resource-definitions/` | CustomResourceDefinition and Custom Resource                         |
+| `06-helm/`                        | Apache Helm chart, templates, Service, Ingress, HPA and Helm test    |
+| `07-kubernetes-dashboard/`        | Dashboard access and RBAC example                                    |
+| `08-notes-app-kubernetes/`        | Django Notes App, MySQL, Secrets, Services and Kubernetes deployment |
 
 ## Helm
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#helm)
 
 The Apache chart demonstrates:
 
@@ -52,12 +60,16 @@ The Apache chart demonstrates:
 
 Validate the chart with:
 
-```bash
+```
 helm lint 06-helm/apache-helm
 helm template demo 06-helm/apache-helm
 ```
 
+**svg**
+
 ## Notes Application
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#notes-application)
 
 The `08-notes-app-kubernetes/` lab demonstrates deploying a Django Notes application with MySQL on Kubernetes using:
 
@@ -76,35 +88,56 @@ The Django application listens on port `8000`, while the Kubernetes Service expo
 
 The Django application connects to MySQL through the Kubernetes Service:
 
-```text
+```
 mysql-service:3306
+
 ```
 
-The application used in this lab is based on the public
-[djang-notes-app](https://github.com/LondheShubham153/django-notes-app) project by LondheShubham153. The focus of this lab is containerization and Kubernetes deployment rather than original application development.
+**svg**
+
+The application used in this lab is based on the public [django-notes-app](https://github.com/LondheShubham153/django-notes-app) project by LondheShubham153. The focus of this lab is containerization and Kubernetes deployment rather than original application development.
 
 > Note: MySQL uses ephemeral container storage in this lab. Persistent storage can be added later using a PersistentVolume and PersistentVolumeClaim.
 
 ## Screenshots
 
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#screenshots)
+
 ### Kubernetes Cluster
-![Kubernetes Cluster](screenshots/cluster-nodes.png)
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#kubernetes-cluster)
+
+[Kubernetes Cluster](https://github.com/Nitish-Borse/kubernetes-learning-labs/blob/main/screenshots/cluster-nodes.png) ([image](https://github.com/Nitish-Borse/kubernetes-learning-labs/raw/main/screenshots/cluster-nodes.png))
 
 ### Kubernetes Workloads
-![Kubernetes Workloads](screenshots/workloads.png)
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#kubernetes-workloads)
+
+[Kubernetes Workloads](https://github.com/Nitish-Borse/kubernetes-learning-labs/blob/main/screenshots/workloads.png) ([image](https://github.com/Nitish-Borse/kubernetes-learning-labs/raw/main/screenshots/workloads.png))
 
 ### HPA
-![Horizontal Pod Autoscaler](screenshots/hpa.png)
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#hpa)
+
+[Horizontal Pod Autoscaler](https://github.com/Nitish-Borse/kubernetes-learning-labs/blob/main/screenshots/hpa.png) ([image](https://github.com/Nitish-Borse/kubernetes-learning-labs/raw/main/screenshots/hpa.png))
 
 ### Helm
-![Helm](screenshots/helm.png)
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#helm-1)
+
+[Helm](https://github.com/Nitish-Borse/kubernetes-learning-labs/blob/main/screenshots/helm.png) ([image](https://github.com/Nitish-Borse/kubernetes-learning-labs/raw/main/screenshots/helm.png))
 
 ### Notes Application
-![Notes Application](screenshots/notes-app.png)
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#notes-application-1)
+
+[Notes Application](https://github.com/Nitish-Borse/kubernetes-learning-labs/blob/main/screenshots/notes-app.png) ([image](https://github.com/Nitish-Borse/kubernetes-learning-labs/raw/main/screenshots/notes-app.png))
 
 ## Useful Commands
 
-```bash
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#useful-commands)
+
+```
 kubectl get nodes
 kubectl get pods -A
 kubectl get deployments -A
@@ -124,24 +157,34 @@ helm test demo
 helm uninstall demo
 ```
 
+**svg**
+
 ## Validation
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#validation)
 
 For regular Kubernetes manifests:
 
-```bash
+```
 kubectl apply --dry-run=client -f <manifest>.yml
 ```
 
+**svg**
+
 For Helm:
 
-```bash
+```
 helm lint 06-helm/apache-helm
 helm template demo 06-helm/apache-helm
 ```
 
+**svg**
+
 Helm files under `06-helm/apache-helm/templates/` are templates and should be validated through Helm rather than as standalone YAML.
 
 ## Security
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#security)
 
 Never commit:
 
@@ -157,6 +200,8 @@ The MySQL Secret in `03-storage/mysql-secret-example.yml` contains only the dumm
 Never replace the example value with a real password before committing the repository.
 
 ## Learning Goal
+
+[svg](https://github.com/Nitish-Borse/kubernetes-learning-labs#learning-goal)
 
 The goal of this repository is to demonstrate practical Kubernetes learning through focused labs, manifests, and a small application deployment rather than a collection of copied notes.
 
