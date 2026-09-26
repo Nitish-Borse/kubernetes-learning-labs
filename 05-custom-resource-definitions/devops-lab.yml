@@ -1,0 +1,9 @@
+apiVersion: learning.nitish.dev/v1
+kind: DevOpsLab
+metadata:
+  name: devops-learning-lab
+spec:
+  topic: Kubernetes
+  duration: 30 days
+  mode: Hands-on
+  platform: Self Learning

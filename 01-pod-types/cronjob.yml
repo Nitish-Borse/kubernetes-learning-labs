@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-cron
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: minute-backup
+          labels:
+            app: myapp
+        spec:
+          containers:
+            - name: mybackup-cont
+              image: busybox:latest
+              command:
+                - /bin/sh
+                - -c
+                - echo "Hello From Nitish Borse"
+          restartPolicy: OnFailure

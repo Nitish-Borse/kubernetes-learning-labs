@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exec-demo
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: exec-demo
+
+  template:
+    metadata:
+      labels:
+        app: exec-demo
+
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+
+          command:
+            - /bin/sh
+            - -c
+            - |
+              touch /tmp/healthy
+              nginx -g "daemon off;"
+
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - test -f /tmp/healthy
+
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3

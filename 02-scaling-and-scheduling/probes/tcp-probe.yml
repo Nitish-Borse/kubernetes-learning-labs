@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-demo
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tcp-demo
+
+  template:
+    metadata:
+      labels:
+        app: tcp-demo
+
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+
+          ports:
+            - containerPort: 80
+
+          livenessProbe:
+            tcpSocket:
+              port: 80
+
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3

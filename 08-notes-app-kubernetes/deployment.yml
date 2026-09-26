@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-dep
+  namespace: notes-ns
+  labels:
+    app: notes-app
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: notes-app
+
+  template:
+    metadata:
+      labels:
+        app: notes-app
+
+    spec:
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+
+      containers:
+        - name: notesapp-cont
+          image: nitishborse/notes-app:latest
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: notes-db-secret
+                  key: DB_NAME
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: notes-db-secret
+                  key: DB_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notes-db-secret
+                  key: DB_PASSWORD
+
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: notes-db-secret
+                  key: DB_PORT
+
+            - name: DB_HOST
+              value: "mysql-service"
+
+          command:
+            - sh
+            - -c
+            - |
+              python manage.py migrate --noinput
+              python manage.py runserver 0.0.0.0:8000
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-job
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    metadata:
+      name: demo-job-pod
+    spec:
+      containers:
+        - name: demo-cont
+          image: busybox:latest
+          command: ["sh","-c","echo Hello Dosto && sleep 10"]
+      restartPolicy: Never

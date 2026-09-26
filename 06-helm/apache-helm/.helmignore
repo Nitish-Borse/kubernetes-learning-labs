@@ -1,0 +1,25 @@
+# Patterns to ignore when building Helm packages.
+# One pattern per line. Negation can be used with !.
+.DS_Store
+
+# Version control
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+
+# Temporary / backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+
+# IDE files
+.project
+.idea/
+*.tmproj
+.vscode/

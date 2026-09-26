@@ -1,0 +1,140 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-dep
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+      containers:
+        - name: nginx-cont
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+
+      # Uncomment the toleration section if you want
+      # the Pod to be allowed on the tainted node.
+      #
+      # tolerations:
+      #   - key: "prod"
+      #     operator: "Equal"
+      #     value: "true"
+      #     effect: "NoSchedule"
+
+      # ============================================================
+      # TAINTS AND TOLERATIONS
+      # ============================================================
+
+      # Taint is applied to a NODE.
+      #
+      # A tainted node rejects Pods that do NOT have a matching
+      # toleration.
+      #
+      # General concept:
+      #
+      #   Taint on Node
+      #        ↓
+      #   Pod without toleration
+      #        ↓
+      #   ❌ Pod cannot be scheduled on that node
+      #
+      #   Taint on Node
+      #        ↓
+      #   Pod with matching toleration
+      #        ↓
+      #   ✅ Pod is allowed to be scheduled on that node
+      #
+      # IMPORTANT:
+      # A toleration does NOT force the Pod onto the node.
+      # It only allows the Pod to be scheduled there.
+
+      # ============================================================
+      # 1. APPLY TAINT TO A NODE
+      # ============================================================
+
+      # Example:
+      #
+      # kubectl taint node <node-name> prod=true:NoSchedule
+      #
+      # Meaning:
+      #
+      # Node: <node-name>
+      # Key: prod
+      # Value: true
+      # Effect: NoSchedule
+      #
+      # NoSchedule means:
+      # New Pods without a matching toleration will NOT be scheduled
+      # on this node.
+
+      # ============================================================
+      # 2. CHECK NODE TAINT
+      # ============================================================
+
+      # kubectl describe node <node-name>
+      #
+      # Or:
+      #
+      # kubectl describe node <node-name> | grep -i taint
+
+      # ============================================================
+      # 3. REMOVE / UNTAINT THE NODE
+      # ============================================================
+
+      # kubectl taint node <node-name> prod=true:NoSchedule-
+      #
+      # The "-" at the end removes the taint.
+      #
+      # After removing the taint:
+      #
+      # Node
+      #   ↓
+      # No prod=true:NoSchedule taint
+      #   ↓
+      # Pods can be scheduled normally
+      # (subject to other scheduling rules).
+
+      # ============================================================
+      # 4. TOLERATION
+      # ============================================================
+
+      # If the node has:
+      #
+      # prod=true:NoSchedule
+      #
+      # Then this Pod can tolerate that taint by adding:
+      #
+      # tolerations:
+      #   - key: "prod"
+      #     operator: "Equal"
+      #     value: "true"
+      #     effect: "NoSchedule"
+
+      # ============================================================
+      # TAINT + TOLERATION FLOW
+      # ============================================================
+
+      # Node:
+      #   prod=true:NoSchedule
+      #
+      # Pod WITHOUT toleration:
+      #   ❌ Cannot schedule on the tainted node
+      #
+      # Pod WITH matching toleration:
+      #   ✅ Allowed to schedule on the tainted node
+      #
+      # BUT:
+      #   Toleration ≠ guarantee
+      #
+      # If you want to specifically place a Pod on a particular node,
+      # use nodeSelector or nodeAffinity.

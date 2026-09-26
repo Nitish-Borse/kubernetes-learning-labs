@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-node-affinity
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+
+      # ============================================================
+      # NODE AFFINITY
+      # ============================================================
+      #
+      # Node Affinity is used to control WHICH NODE a Pod should
+      # be scheduled on based on labels of the node.
+      #
+      # Example:
+      # If a node has:
+      #
+      #   kubernetes.io/os=linux
+      #
+      # then the Pod can be scheduled on that node.
+      #
+      # Node Affinity works with NODE LABELS.
+      #
+      # Check node labels:
+      #   kubectl get nodes --show-labels
+      #
+      # Add a label to a node:
+      #   kubectl label node <node-name> disktype=ssd
+      #
+      # Check the label:
+      #   kubectl get nodes --show-labels
+      #
+      # ============================================================
+
+      affinity:
+
+        # ----------------------------------------------------------
+        # nodeAffinity
+        # ----------------------------------------------------------
+        #
+        # nodeAffinity tells Kubernetes:
+        # "Schedule this Pod according to these NODE labels."
+        #
+        nodeAffinity:
+
+          # ========================================================
+          # REQUIRED NODE AFFINITY
+          # ========================================================
+          #
+          # requiredDuringSchedulingIgnoredDuringExecution means:
+          #
+          # REQUIRED DURING SCHEDULING:
+          # The Pod MUST be scheduled on a node matching the rule.
+          #
+          # IGNORED DURING EXECUTION:
+          # If the node label changes AFTER the Pod is running,
+          # Kubernetes does NOT automatically remove the Pod.
+          #
+          # In simple words:
+          #
+          #       Before Pod starts
+          #              ↓
+          #       Rule MUST match
+          #              ↓
+          #       Pod gets scheduled
+          #
+          #       After Pod starts
+          #              ↓
+          #       Label changes
+          #              ↓
+          #       Pod is NOT automatically evicted
+          #
+          # ========================================================
+
+          requiredDuringSchedulingIgnoredDuringExecution:
+
+            # A list of node-selection rules
+            nodeSelectorTerms:
+
+              # ----------------------------------------------------
+              # NODE SELECTOR TERM
+              # ----------------------------------------------------
+              #
+              # The Pod will look for a node matching this rule.
+              #
+              - matchExpressions:
+
+                  # ------------------------------------------------
+                  # key
+                  # ------------------------------------------------
+                  #
+                  # This is the NODE LABEL key.
+                  #
+                  # Here we are checking:
+                  #
+                  #   disktype
+                  #
+                  # ------------------------------------------------
+                  - key: disktype
+
+                    # ------------------------------------------------
+                    # operator
+                    # ------------------------------------------------
+                    #
+                    # In = the node label value MUST be one of the
+                    # values mentioned below.
+                    #
+                    # Example:
+                    #
+                    #   disktype=ssd
+                    #
+                    # ------------------------------------------------
+                    operator: In
+
+                    # ------------------------------------------------
+                    # values
+                    # ------------------------------------------------
+                    #
+                    # The node must have:
+                    #
+                    #   disktype=ssd
+                    #
+                    # ------------------------------------------------
+                    values:
+                      - ssd
+
+      # ============================================================
+      # CONTAINER
+      # ============================================================
+
+      containers:
+
+        - name: nginx-container
+
+          image: nginx:latest
+
+          ports:
+            - containerPort: 80
